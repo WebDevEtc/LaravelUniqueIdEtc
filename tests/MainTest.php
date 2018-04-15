@@ -16,7 +16,7 @@ class MainTest extends \Tests\TestCase
     /**
      * @var string
      */
-    static $temporary_table_name = "webdevetc_dummy_model_testing_temporary";
+    static $temporary_table_name = "webdevetc_dummy_model_testing_temporary_table";
 
     /**
      * before test, create a testing table
@@ -52,12 +52,17 @@ class MainTest extends \Tests\TestCase
         $dummyModel = new \Models\DummyModel();
         $this->assertTrue($dummyModel->unique_id == null);
         $dummyModel->save();
+
+        $dummyModel->fresh();
+
         $this->assertTrue($dummyModel->unique_id != null);
         $this->assertTrue(strlen($dummyModel->unique_id) > 0);
 
         // create a new one
         $d2 = new \Models\DummyModel();
         $d2->save();
+        $d2->fresh();
+        
         $this->assertTrue($d2->unique_id != null);
         $this->assertTrue(strlen($d2->unique_id) > 0);
 
