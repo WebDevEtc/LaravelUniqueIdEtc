@@ -69,13 +69,13 @@ trait UniqueId
             $exists = \DB::table($this->getTable())->where($this->uniqueIdField(), $attempt)->exists();
 
             if (!$exists) {
-                // we can use this
+                // this attempt didn't exist in DB, it should be safe to use (as long as there was no race condition here, but I think it is safe to assume it is ok. If you are worried about this, then set the unique_id_initial_length config high!
                 return $attempt;
             }
 
 
             if ($attempt_num === $send_warning_at) {
-                \Log::warning(__METHOD__ . " is using at least $send_warning_at attempts and still not finding a unique ID on " . $this->getTable() . ". Consider increasing unique_id_initial_length()'s value for " . get_class($this));
+                \Log::warning("Laravel Unique ID Etc Warning: " . __METHOD__ . " is using at least $send_warning_at attempts and still not finding a unique ID on " . $this->getTable() . ". Consider increasing unique_id_initial_length()'s value for " . get_class($this));
             }
 
             // cannot use $attempt, so lets loop again and try again
@@ -83,7 +83,7 @@ trait UniqueId
 
 
         // too many attempts.
-        throw new UnableToCreateLaravelUniqueId("Unable to find a new unique ID within the first $max_attempts attempts on " . $this->getTable() . " so quitting");
+        throw new UnableToCreateLaravelUniqueId("Laravel Unique ID Error: Unable to find a new unique ID within the first $max_attempts attempts on " . $this->getTable() . " so quitting");
     }
 
 

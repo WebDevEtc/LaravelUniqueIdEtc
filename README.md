@@ -5,11 +5,13 @@
 
 This is [WebDevEtc's](https://webdevetc.com/) Laravel Unique Id package. It has everything you need to quickly and easily add a blog to your laravel app.
 
-It is only really one file (and an exception, plus a test file). It isn't complicated. But this might be useful if you want to use some form of an ID on public facing things, but still use an auto incrementing integer as your actual primary key.
+It is only really one main file (and an exception, plus a test file). It isn't complicated. But this might be useful if you want to use some form of an ID on public facing things, but still use an auto incrementing integer as your actual primary key.
+
+When creating a new Eloquent item, it will run a while loop (until a max number of attempts, then it will throw an exception) trying to create a unique ID then checking if it exists in the database. If not, it will set that as the unique id.
 
  I've used this in a few projects, so I thought I'd put this up online, maybe it can help others. Please give it a star on Github if you find this useful :)
 
- It isn't really Laravel specific.  As long as the `str_slug` function exists, it should work. The tests assume you have Laravel installed though.
+The tests assume you have Laravel  installed.
 
 ## Usage (super simple!)
 
@@ -23,7 +25,9 @@ Then just add the following to your Eloquent models:
 
 to use the included trait file.
 
-You must also create a db migration. For example, to add a unique_id field to your User model (which uses the `users` table):
+You must also create a db migration to add the unique id field. By default this is `unique_id`.
+
+For example, to add a unique_id field to your User model (which uses the `users` table):
 
     php artisan make:migration --table='users'
 

@@ -23,10 +23,9 @@ class DummyModel extends Model
      * @var array
      */
     public $fillable = ['name'];
+
     /**
      * @var string
      */
-    public $table = "webdevetc_dummy_model_testing_temporary";
-
-
+    public $table = "webdevetc_dummy_model_testing_temporary_table";
 }

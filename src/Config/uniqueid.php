@@ -1,6 +1,12 @@
 <?php
 
-// from webdevetc.com/uniqueid
+/* This is the config file for webdevetc.com/uniqueid, a trait that you can add to laravel's eloquent models to add a unique id when creating new rows
+
+You must alter your db table(s) to add a unique_id field (you can change what field it uses below)
+
+Questions? Contact me on https://webdevetc.com/
+
+ */
 
 return [
 
@@ -10,7 +16,7 @@ return [
     'unique_id_initial_length' => 5,
 
     /**
-     *  But after this number of attempts (default: 25), we can start increasing the string length of unique id...
+     * But after this number of attempts (default: 25), we can start increasing the string length of unique id...
      */
     'max_num_of_attempts_before_adding_length_to_unique_id' => 25,
 
@@ -25,7 +31,7 @@ return [
     'max_number_of_unique_id_attempts' => 50,
 
     /**
-     *  Should the unique_id be lowercase? (default: true)
+     * Should the unique_id be lowercase? (default: true)
      */
     'unique_id_lowercase' => true,
 
