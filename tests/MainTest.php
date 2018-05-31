@@ -46,7 +46,7 @@ class MainTest extends \Tests\TestCase
     /**
      * test creating new, and updating
      */
-    public function testCreatingAndUpdating()
+    public function test_creating_and_updating_applies_the_unique_id()
     {
         // create first
         $dummyModel = new \Models\DummyModel();
@@ -62,29 +62,28 @@ class MainTest extends \Tests\TestCase
         $d2 = new \Models\DummyModel();
         $d2->save();
         $d2->fresh();
-        
+
         $this->assertTrue($d2->unique_id != null);
         $this->assertTrue(strlen($d2->unique_id) > 0);
-
         $this->assertTrue($d2->unique_id != $dummyModel->unique_id);
 
-        // what was the uid
-        $d2_uid = $d2->unique_id;
+        // what was the unique id
+        $d2_unique_id = $d2->unique_id;
 
         // update it/save it...
         $d2->name = "a new name " . str_random();
         $d2->save();
         $d2->fresh();
 
-        // ... and check the UID is the same even after updating
-        $this->assertTrue($d2->unique_id === $d2_uid);
+        // ... and check the unique id is the same even after updating
+        $this->assertTrue($d2->unique_id === $d2_unique_id);
 
     }
 
     /**
      * test with model::create();
      */
-    public function testCreate()
+    public function test_create_method_on_eloquent_model()
     {
         $created = \Models\DummyModel::create(['name' => str_random()]);
         $created->fresh();
@@ -94,8 +93,9 @@ class MainTest extends \Tests\TestCase
 
     /**
      * test with new Model()
+     * (I guess this should really be 'test_constructor_method' or something...
      */
-    public function testNew()
+    public function test_new_method_on_eloquent_model()
     {
         $new = new \Models\DummyModel(['name' => str_random()]);
         $this->assertTrue($new->unique_id === null);
@@ -111,7 +111,7 @@ class MainTest extends \Tests\TestCase
     /**
      * Set it up so it should see an exception
      */
-    public function testCreateAnError()
+    public function test_that_exception_is_thrown_if_reaches_max_attempts()
     {
 
         config(['uniqueid.unique_id_max_length' => 1]);
@@ -130,7 +130,7 @@ class MainTest extends \Tests\TestCase
     /**
      * Create lots (with a large max length) of entries, make sure that no exceptions are thrown.
      */
-    public function testCreateManyAndNoErrors()
+    public function test_that_we_can_create_many_without_errors()
     {
         $i = 0;
 
@@ -148,7 +148,7 @@ class MainTest extends \Tests\TestCase
      * Test that it will still create unique ids even if it can't find any in the first round.
      * because the $unique_id_initial_length is 1, after around 36 previous unique ids it should run out of available 1 character unique ids, so then it will (after 25 tries) change the length to $unique_id_max_length.
      */
-    public function testSmallInitialLengthButLargeMax()
+    public function test_small_initial_length_and_large_max ()
     {
         $i = 0;
 
@@ -169,7 +169,7 @@ class MainTest extends \Tests\TestCase
     /**
      * test the unique id is UPPERCASE when $unique_id_uppercase is true
      */
-    public function testUppercase()
+    public function test_set_uppercase()
     {
         config(['uniqueid.unique_id_uppercase' => true]);
         config(['uniqueid.unique_id_lowercase' => false]);
@@ -183,7 +183,7 @@ class MainTest extends \Tests\TestCase
     /**
      * test if the unique id is lowercase when $unique_id_lowercase is true
      */
-    public function testLowercase()
+    public function test_set_lowercase()
     {
         config(['uniqueid.unique_id_uppercase' => false]);
         config(['uniqueid.unique_id_lowercase' => true]);
