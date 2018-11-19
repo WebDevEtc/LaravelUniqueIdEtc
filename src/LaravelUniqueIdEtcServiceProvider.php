@@ -34,7 +34,7 @@ class LaravelUniqueIdEtcServiceProvider extends ServiceProvider
 
     protected function publishesFiles()
     {
-        $tag = 'blogetc_config';
+        $tag = 'uniqueidetc_config';
         $this->publishes([
             __DIR__ . '/Config/uniqueid.php' => config_path('uniqueid.php'),
         ], $tag);

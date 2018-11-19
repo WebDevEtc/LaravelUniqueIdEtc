@@ -3,7 +3,7 @@
 
 ## Introduction
 
-This is [WebDevEtc's](https://webdevetc.com/) Laravel Unique Id package. 
+This is [WebDevEtc's](https://webdevetc.com/) Laravel Unique Id package.
 
 It is only really one main file (and an exception, plus a test file). It isn't complicated. But this might be useful if you want to use some form of an ID on public facing things, but still use an auto incrementing integer as your actual primary key.
 
@@ -18,6 +18,10 @@ The tests assume you have Laravel  installed.
 Require it in composer:
 
     composer require webdevetc/laraveluniqueidetc
+
+Run the following command to copy over the config file (to `config/uniqueid.php`):
+
+     php artisan vendor:publish --tag=uniqueidetc_config
 
 Then just add the following to your Eloquent models:
 
