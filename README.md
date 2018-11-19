@@ -9,7 +9,7 @@ It is only really one main file (and an exception, plus a test file). It isn't c
 
 When creating a new Eloquent item, it will run a while loop (until a max number of attempts, then it will throw an exception) trying to create a unique ID then checking if it exists in the database. If not, it will set that as the unique id.
 
- I've used this in a few projects, so I thought I'd put this up online, maybe it can help others. Please give it a star on Github if you find this useful :)
+I've used this in a few projects, so I thought I'd put this up online, maybe it can help others. Please give it a star on Github if you find this useful :)
 
 The tests assume you have Laravel  installed.
 
