@@ -3,7 +3,7 @@
 
 ## Introduction
 
-This is [WebDevEtc's](https://webdevetc.com/) Laravel Unique Id package. It has everything you need to quickly and easily add a blog to your laravel app.
+This is [WebDevEtc's](https://webdevetc.com/) Laravel Unique Id package. 
 
 It is only really one main file (and an exception, plus a test file). It isn't complicated. But this might be useful if you want to use some form of an ID on public facing things, but still use an auto incrementing integer as your actual primary key.
 
