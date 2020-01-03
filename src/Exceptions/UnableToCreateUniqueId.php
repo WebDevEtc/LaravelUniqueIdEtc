@@ -1,6 +1,8 @@
 <?php
 namespace WebDevEtc\LaravelUniqueIdEtc\Exceptions;
 
-class UnableToCreateLaravelUniqueId extends \RangeException
+use RangeException;
+
+class UnableToCreateLaravelUniqueId extends RangeException
 {
 }

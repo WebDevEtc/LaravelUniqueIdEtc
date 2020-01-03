@@ -1,6 +1,9 @@
 <?php namespace WebDevEtc\LaravelUniqueIdEtc\Traits;
 
+use DB;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
+use Log;
 use WebDevEtc\LaravelUniqueIdEtc\Exceptions\UnableToCreateLaravelUniqueId;
 use WebDevEtc\LaravelUniqueIdEtc\UniqueGenerator\UniqueGenerator;
 use WebDevEtc\LaravelUniqueIdEtc\UniqueGenerator\UniqueGeneratorInterface;
@@ -16,11 +19,10 @@ trait UniqueId
      */
     public static function bootUniqueId()
     {
-        static::creating(function (Model $model) {
+        static::creating(static function (Model $model) {
             /** @var UniqueId $model */
             $model->generateUniqueIdOnCreate();
         });
-
     }
 
     /**
@@ -31,7 +33,6 @@ trait UniqueId
     {
         $this->{$this->uniqueIdField()} = $this->newUniqueid();
     }
-
 
     /**
      * Which field stores the unique id.
@@ -50,8 +51,10 @@ trait UniqueId
     }
 
     /**
+     * Generate a new Unique ID.
+     *
      * @return string
-     * @throws UnableToCreateLaravelUniqueId
+     * @throws Exception
      */
     protected function newUniqueid()
     {
@@ -66,25 +69,25 @@ trait UniqueId
         /** @var UniqueGenerator $generator */
         for ($attempt_num = 0; $attempt_num < $max_attempts; $attempt_num++) {
             $attempt = $generator->generateUniqueIdAttempt($attempt_num);
-            $exists = \DB::table($this->getTable())->where($this->uniqueIdField(), $attempt)->exists();
+            $exists = DB::table($this->getTable())->where($this->uniqueIdField(), $attempt)->exists();
 
             if (!$exists) {
                 // this attempt didn't exist in DB, it should be safe to use (as long as there was no race condition here, but I think it is safe to assume it is ok. If you are worried about this, then set the unique_id_initial_length config high!
                 return $attempt;
             }
 
-
             if ($attempt_num === $send_warning_at) {
-                \Log::warning("Laravel Unique ID Etc Warning: " . __METHOD__ . " is using at least $send_warning_at attempts and still not finding a unique ID on " . $this->getTable() . ". Consider increasing unique_id_initial_length()'s value for " . get_class($this));
+                Log::warning("Laravel Unique ID Etc Warning: " . __METHOD__ .
+                    " is using at least $send_warning_at attempts and still not finding a unique ID on " .
+                    $this->getTable() . ". Consider increasing unique_id_initial_length()'s value for " .
+                    get_class($this));
             }
-
             // cannot use $attempt, so lets loop again and try again
         }
 
-
         // too many attempts.
-        throw new UnableToCreateLaravelUniqueId("Laravel Unique ID Error: Unable to find a new unique ID within the first $max_attempts attempts on " . $this->getTable() . " so quitting");
+        throw new UnableToCreateLaravelUniqueId('Laravel Unique ID Error: Unable to find a new unique ' .
+            "ID within the first $max_attempts attempts on " . $this->getTable() . ' so quitting');
     }
-
 
 }

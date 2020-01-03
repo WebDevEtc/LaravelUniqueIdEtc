@@ -46,6 +46,4 @@ return [
      * Remember to make a DB migration and create the new table column.
      */
     'unique_id_field' => 'unique_id',
-
-
 ];

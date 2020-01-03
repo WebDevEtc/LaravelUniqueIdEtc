@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Schema;
  *
  * ../../../vendor/bin/phpunit
  *
+ * todo - refactor these tests, they are testing too much.
+ *
  */
 class MainTest extends \Tests\TestCase
 {
@@ -77,7 +79,6 @@ class MainTest extends \Tests\TestCase
 
         // ... and check the unique id is the same even after updating
         $this->assertTrue($d2->unique_id === $d2_unique_id);
-
     }
 
     /**
@@ -123,7 +124,6 @@ class MainTest extends \Tests\TestCase
             // set the max len to 1, it should hit a duplicate very quickly
             $new->save();
         }
-        // uh oh!
     }
 
 
@@ -193,5 +193,4 @@ class MainTest extends \Tests\TestCase
         $new->fresh();
         $this->assertTrue(strtolower($new->unique_id) == $new->unique_id);
     }
-
 }
